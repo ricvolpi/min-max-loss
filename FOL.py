@@ -79,14 +79,20 @@ class FOL(object):
 		#evaluate the model
 		if (t+1) % 10 == 0:
 		    summary, l, acc = sess.run([model.summary_op, model.loss, model.accuracy], feed_dict)
-		    rand_idxs = np.random.permutation(train_images.shape[0])[:1000]
-		    train_acc, loss = sess.run(fetches=[model.accuracy, model.loss], 
-					   feed_dict={model.images: train_images[rand_idxs], 
-						      model.labels: train_labels[rand_idxs]})
-						      
+		    
+		    train_rand_idxs = np.random.permutation(train_images.shape[0])[:1000]
+		    test_rand_idxs = np.random.permutation(test_images.shape[0])[:1000]
+		    
+		    train_acc, train_loss = sess.run(fetches=[model.accuracy, model.loss], 
+					   feed_dict={model.images: train_images[train_rand_idxs], 
+						      model.labels: train_labels[train_rand_idxs]})
+		    test_acc, test_loss = sess.run(fetches=[model.accuracy, model.loss], 
+					   feed_dict={model.images: test_images[test_rand_idxs], 
+						      model.labels: test_labels[test_rand_idxs]})
+		    				      
 						      
 		    summary_writer.add_summary(summary, t)
-		    print ('Step: [%d/%d] loss: [%.6f] acc: [%.2f]'%(t+1, self.train_iter, l, acc))
+		    print ('Step: [%d/%d] train_loss: [%.4f] train_acc: [%.4f] test_loss: [%.4f] test_acc: [%.4f]'%(t+1, self.train_iter, train_loss, train_acc, test_loss, test_acc))
 		    
 		#~ if (t+1) % 100 == 0:
 		    #~ saver.save(sess, os.path.join(self.model_save_path, 'encoder'))
