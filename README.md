@@ -2,3 +2,10 @@
 
 Unofficial implementation of the work by Shalev-Schwartz and Wexler (ICML 2016). 
 
+## Getting started
+
+The file Tree.py allows to build the full binary Tree used in the work. 
+
+### Prerequisites
+
+Python 2.7 (should work on Python 3, too), Numpy 
