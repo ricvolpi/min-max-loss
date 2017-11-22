@@ -20,10 +20,18 @@ FOL.py: class to run the algorithm on MNIST.
 
 ## How it works
 
-Simply run:
+Run:
+
+```
+python download_and_process_mnist.py
+```
+
+to download and process MNIST dataset. 
+
+Run
 
 ```
 python main.py --gpu=0
 ```
 
-With the desired GPU index instead of 0.
+to start the training procedure, with the desired GPU index instead of 0.
