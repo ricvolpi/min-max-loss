@@ -12,6 +12,11 @@ FLAGS = flags.FLAGS
 
 def main(_):
     
+    if not os.path.exists('./model'):
+	os.makedirs('./model')
+    if not os.path.exists('./logs'):
+	os.makedirs('./logs')
+    
     GPU_ID = FLAGS.gpu
 
     os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152 on stackoverflow

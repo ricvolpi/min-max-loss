@@ -94,8 +94,9 @@ class FOL(object):
 		    summary_writer.add_summary(summary, t)
 		    print ('Step: [%d/%d] train_loss: [%.4f] train_acc: [%.4f] test_loss: [%.4f] test_acc: [%.4f]'%(t+1, self.train_iter, train_loss, train_acc, test_loss, test_acc))
 		    
-		#~ if (t+1) % 100 == 0:
-		    #~ saver.save(sess, os.path.join(self.model_save_path, 'encoder'))
+		if (t+1) % 1000 == 0:
+		    print 'Saving model.'
+		    saver.save(sess, os.path.join(self.model_save_path, 'encoder'))
 	    
     def test(self):
 	
