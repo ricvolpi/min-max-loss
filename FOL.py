@@ -93,54 +93,9 @@ class FOL(object):
 	    
     def test(self):
 	
-	train_images, train_labels = self.load_mnist(self.mnist_dir, split='train')
-	test_images, test_labels = self.load_mnist(self.mnist_dir, split='test')
-
-	# build a graph
-	model = self.model
-	model.build_model()
+	raise Exception('To be implemented.')
 	
-	self.config = tf.ConfigProto(device_count = {'GPU': 0})
-	
-	with tf.Session(config=self.config) as sess:
-	    tf.global_variables_initializer().run()
-	    saver = tf.train.Saver()
-	    
-	    t = 0
-	    
-	    acc = []
-	    
-	    while(True):
-		
-		print ('Loading test model.')
-		variables_to_restore = slim.get_model_variables(scope='encoder')
-		restorer = tf.train.Saver(variables_to_restore)
-		restorer.restore(sess, os.path.join(self.model_save_path, 'model'))
-		
 
-	    
-		t+=1
-    
-		src_rand_idxs = np.random.permutation(src_test_images.shape[0])[:]
-		trg_rand_idxs = np.random.permutation(trg_test_images.shape[0])[:]
-		test_src_acc, test_trg_acc, trg_pred = sess.run(fetches=[model.src_accuracy, model.trg_accuracy, model.trg_pred], 
-				       feed_dict={model.src_images: src_test_images[src_rand_idxs], 
-						  model.src_labels: src_test_labels[src_rand_idxs],
-						  model.trg_images: trg_test_images[trg_rand_idxs], 
-						  model.trg_labels: trg_test_labels[trg_rand_idxs]})
-		src_acc = sess.run(model.src_accuracy, feed_dict={model.src_images: src_images[:10000], 
-								  model.src_labels: src_labels[:10000],
-						                  model.trg_images: trg_test_images[trg_rand_idxs], 
-								  model.trg_labels: trg_test_labels[trg_rand_idxs]})
-						  
-		print ('Step: [%d/%d] src train acc [%.3f]  src test acc [%.3f] trg test acc [%.3f]' \
-			   %(t+1, self.train_iter, src_acc, test_src_acc, test_trg_acc))
-		
-		print confusion_matrix(trg_test_labels[trg_rand_idxs], trg_pred)	   
-		
-		acc.append(test_trg_acc)
-		with open(self.protocol + '_' + algorithm + '.pkl', 'wb') as f:
-		    cPickle.dump(acc,f,cPickle.HIGHEST_PROTOCOL)
       
 if __name__=='__main__':
 
