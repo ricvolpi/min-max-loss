@@ -20,15 +20,13 @@ FOL.py: class to run the algorithm on MNIST.
 
 ## How it works
 
-Run:
+Run
 
 ```
 python download_and_process_mnist.py
 ```
 
-to download and process MNIST dataset. 
-
-Run
+to download and process MNIST dataset, then run 
 
 ```
 python main.py --gpu=0
