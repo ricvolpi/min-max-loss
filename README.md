@@ -1,6 +1,6 @@
 # Code for the paper [Minimizing the Maximal Loss: How and Why](https://arxiv.org/pdf/1602.01690.pdf)
 
-Unofficial implementation of the work by Shalev-Schwartz and Wexler (ICML 2016). 
+Unofficial implementation of the work by Shalev-Schwartz and Wexler (ICML 2016). Work in progress.
 
 ## Getting started
 
