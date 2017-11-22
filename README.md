@@ -4,8 +4,14 @@ Unofficial implementation of the work by Shalev-Schwartz and Wexler (ICML 2016).
 
 ## Getting started
 
-The file Tree.py allows to build the full binary Tree used in the work and run the three functions necessary (initialize, sample, update). 
+The code allows to train a ConvNet on MNIST using the sampling procedure described in the paper. 
 
 ### Prerequisites
 
-Python 2.7 (should work on Python 3, too), Numpy 
+Python 2.7 (should work on Python 3, too), Numpy, Tensorflow 1.3 
+
+## Files
+
+Tree.py: class to build and sample from the full binary tree
+Model.py: class to build and train a ConvNet.
+FOL.py: class to run the algorithm on MNIST. 
