@@ -8,7 +8,7 @@ The code allows to train a ConvNet on MNIST using the sampling procedure describ
 
 ### Prerequisites
 
-Python 2.7 (should work on Python 3, too), Numpy, Tensorflow 1.3 
+Python 2.7 (should work on Python 3, too), Tensorflow 1.3 
 
 ### Files
 
