@@ -33,7 +33,7 @@ class Model(object):
 	self.correct_pred = tf.equal(self.pred, self.labels)
 	self.accuracy = tf.reduce_mean(tf.cast(self.correct_pred, tf.float32))
 	
-	self.loss = slim.losses.sparse_softmax_cross_entropy(self.src_logits, self.src_labels)
+	self.loss = slim.losses.sparse_softmax_cross_entropy(self.logits, self.labels)
 	self.optimizer = tf.train.AdamOptimizer(self.learning_rate) 
 	self.train_op = slim.learning.create_train_op(self.loss, self.optimizer)
 	

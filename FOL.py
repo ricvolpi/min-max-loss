@@ -12,8 +12,8 @@ import Tree
 
 class FOL(object):
 
-    def __init__(model, train_iter = train_iter, batch_size = batch_size, gamma = gamma, model_save_path='./model', 
-                 mnist_dir='./data/mnist', log_dir='./logs', model_save_path='./model', model='encoder'):
+    def __init__(self, model, train_iter = 10000, batch_size = 64, gamma = 0.5, eta = 0.0001, 
+                 mnist_dir='./data/mnist', log_dir='./logs', model_save_path='./model'):
         
 	
         self.model = model
@@ -25,7 +25,7 @@ class FOL(object):
         
 	#Tree parameters
 	self.gamma = gamma
-	self.eta = learning_rate #? check!!!
+	self.eta = eta
 	
 	self.config = tf.ConfigProto()
         self.config.gpu_options.allow_growth=True
@@ -35,7 +35,7 @@ class FOL(object):
         image_file = 'train.pkl' if split=='train' else 'test.pkl'
         image_dir = os.path.join(image_dir, image_file)
         with open(image_dir, 'rb') as f:
-            mnist = pickle.load(f)
+            mnist = cPickle.load(f)
         images = mnist['X'] / 127.5 - 1
         labels = mnist['y']
         return images, labels
@@ -61,37 +61,35 @@ class FOL(object):
 	    # initializing the tree
 	    tree.initialize()
 	    
-	    for t in self.train_iter:
+	    for t in range(self.train_iter):
 		
 		#sampling from the tree
 		(i, p_i) = tree.sample(gamma = self.gamma)
-		sampled_image = train_images[i]
-		sampled_label = train_labels[i]
+		sampled_image = np.expand_dims(train_images[i],0)
+		sampled_label = np.expand_dims(train_labels[i],0)
            
 		#minimizing the loss associated with the sampled image/label, using Adam as OLA (see paper)
 		feed_dict = {model.images: sampled_image, model.labels: sampled_label} 
 	        _, l = sess.run([model.train_op, model.loss], feed_dict) 
 
 		#updating the tree
-		tree.update(i, np.exp(eta*l/p_i))
+		tree.update(i, np.exp(self.eta*l/p_i))
 
 
 		#evaluate the model
-		if (t+1) % 100 == 0:
-		    summary, l, src_acc = sess.run([model.summary_op, model.loss, model.src_accuracy], feed_dict)
-		    src_rand_idxs = np.random.permutation(src_test_images.shape[0])[:1000]
-		    trg_rand_idxs = np.random.permutation(trg_test_images.shape[0])[:1000]
-		    test_src_acc, test_trg_acc, _ = sess.run(fetches=[model.src_accuracy, model.trg_accuracy, model.loss], 
-					   feed_dict={model.src_images: src_test_images[src_rand_idxs], 
-						      model.src_labels: src_test_labels[src_rand_idxs],
-						      model.trg_images: trg_test_images[trg_rand_idxs], 
-						      model.trg_labels: trg_test_labels[trg_rand_idxs]})
+		if (t+1) % 10 == 0:
+		    summary, l, acc = sess.run([model.summary_op, model.loss, model.accuracy], feed_dict)
+		    rand_idxs = np.random.permutation(train_images.shape[0])[:1000]
+		    train_acc, loss = sess.run(fetches=[model.accuracy, model.loss], 
+					   feed_dict={model.images: train_images[rand_idxs], 
+						      model.labels: train_labels[rand_idxs]})
+						      
+						      
 		    summary_writer.add_summary(summary, t)
-		    print ('Step: [%d/%d] loss: [%.6f] train acc: [%.2f] src test acc [%.2f] trg test acc [%.2f]' \
-			       %(t+1, self.train_iter, l, src_acc, test_src_acc, test_trg_acc))
+		    print ('Step: [%d/%d] loss: [%.6f] acc: [%.2f]'%(t+1, self.train_iter, l, acc))
 		    
-		if (t+1) % 100 == 0:
-		    saver.save(sess, os.path.join(self.model_save_path, 'model'))
+		#~ if (t+1) % 100 == 0:
+		    #~ saver.save(sess, os.path.join(self.model_save_path, 'encoder'))
 	    
     def test(self):
 	
@@ -136,7 +134,7 @@ class FOL(object):
 								  model.trg_labels: trg_test_labels[trg_rand_idxs]})
 						  
 		print ('Step: [%d/%d] src train acc [%.3f]  src test acc [%.3f] trg test acc [%.3f]' \
-			   %(t+1, self.pretrain_iter, src_acc, test_src_acc, test_trg_acc))
+			   %(t+1, self.train_iter, src_acc, test_src_acc, test_trg_acc))
 		
 		print confusion_matrix(trg_test_labels[trg_rand_idxs], trg_pred)	   
 		

@@ -107,7 +107,7 @@ class Tree(object):
 	
 	
 	else:
-	    node = tree.root
+	    node = self.root
 	    while node.left is not None: #it's full, left is completely arbitrary here
 		node = node.left if node.left.value > node.right.value else node.right 
 	    return (node.leaf_idx,gamma / (self.m + (1 - gamma)*node.value))

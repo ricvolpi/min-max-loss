@@ -1,6 +1,6 @@
 import tensorflow as tf
-from model import DSN
-from solver import Solver
+from Model import Model
+from FOL import FOL
 
 import os
 
@@ -20,14 +20,15 @@ def main(_):
     learning_rate = 0.001
     
     train_iter = 100000
-    batch_size = 64
+    batch_size = 64 #useless at this point
     gamma = 0.5
+    eta = 0.0001 #check, not sure
     
 
-    model = Model(learning_rate=LEARNING_RATE)
-    solver = FOL(model, train_iter = train_iter, batch_size = batch_size, gamma = gamma, model_save_path='./model')
+    model = Model(learning_rate=learning_rate)
+    fol = FOL(model, train_iter = train_iter, batch_size = batch_size, gamma = gamma, eta=eta, model_save_path='./model')
     
-    solver.train()
+    fol.train()
     
         
 if __name__ == '__main__':
