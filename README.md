@@ -2,13 +2,13 @@
 
 Unofficial implementation of the work by Shalev-Schwartz and Wexler (ICML 2016). Work in progress.
 
-## Getting started
+## Overview
 
 The code allows to train a ConvNet on MNIST using the sampling procedure described in the paper. 
 
 ### Prerequisites
 
-Python 2.7 (should work on Python 3, too), Tensorflow 1.3 
+Python 2.7, Tensorflow 1.3 
 
 ### Files
 
