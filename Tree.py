@@ -5,25 +5,36 @@ import numpy.random as npr
 
 class Node(object):
     
-    def __init__(self,key=0,value=0, distance_from_root = 0, parent=None, is_root = False, leaf_idx = -1):
+    '''
+    Object representing a node of the tree.
+    '''
+    
+    def __init__(self,value=0, parent=None, is_root = False, leaf_idx = -1):
 
-	self.key = key
-	self.value = value
-	self.distance_from_root = distance_from_root
-	self.parent = parent
-	self.left = None
-	self.right = None
+	self.value = value # vlaue of the Node
 	self.leaf_idx = leaf_idx # [0,1,...,M] for leaves
 
+	self.parent = parent # (a Node)
+	self.left = None # left child (a Node)
+	self.right = None # right child (a Node)
+	
 class Tree(object):
+    
+    '''
+    Object representing the tree
+    Main functions that will be use are:
+    1. initialize
+    2. sample(gamma)
+    3. update(i,f)
+    See the Tree box of the paper for their meaning
+    '''
 
     def __init__(self, m):
     
 	self.root = Node(is_root = True)
 	self.current_key = 1
-	self.distance_from_root = 0
 	self.m = m
-	self.height = int(np.ceil(np.log2(self.m)))
+	self.height = int(np.ceil(np.log2(self.m))) # defining the height as in the paper
 
     def build_full_tree(self):
 	
@@ -47,9 +58,8 @@ class Tree(object):
 		else:
 		    value = 0
 		
-		node.left = Node(key = self.current_key, value = value, distance_from_root = i, parent = node, leaf_idx = leaf_idx)
+		node.left = Node(value = value, parent = node, leaf_idx = leaf_idx)
 		
-		self.current_key += 1
 		
 		if (i == self.height-1) and (counter <= self.m -1):		    
 		    value = 1
@@ -57,7 +67,7 @@ class Tree(object):
 		else:
 		    value = 0
 		
-		node.right = Node(key = self.current_key, value = value, distance_from_root = i, parent = node, leaf_idx = leaf_idx)
+		node.right = Node(value = value, parent = node, leaf_idx = leaf_idx)
 		
 		self.current_key += 1
 	
@@ -66,7 +76,6 @@ class Tree(object):
 		
     def initialize_nodes(self, leaves):
 	
-	print [l.value for l in leaves]
 	parents = [l.parent for l in leaves[::2]]
 	
 	i = 0
@@ -79,7 +88,6 @@ class Tree(object):
 		p.value = p.left.value + p.right.value
 	    
 	    
-	    print [p.value for p in parents]
 	    parents = [l.parent for l in parents[::2]]
 	
     # Three methods necessary to use the Tree described in the paper.
@@ -94,7 +102,7 @@ class Tree(object):
 	b = npr.binomial(1,1-gamma)
 	
 	if b == 0:
-	    i = npr.randint(len(self.leaves))
+	    i = npr.randint(self.m)
 	    return (i,gamma / (self.m + (1 - gamma)*self.leaves[i].value))
 	
 	
@@ -119,7 +127,7 @@ class Tree(object):
 	  	
 if __name__ == "__main__":
     
-    m = 200
+    m = 10000
     
     tree = Tree(m)
     tree.initialize()
@@ -127,6 +135,7 @@ if __name__ == "__main__":
     (i,val) = tree.sample(.5)
     print (i,val)
     tree.update(i,f=0)
+    
 
 
 		    
