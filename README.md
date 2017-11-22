@@ -22,8 +22,8 @@ FOL.py: class to run the algorithm on MNIST.
 
 Simply run:
 
-'''
+```
 python main.py --gpu=0
-'''
+```
 
 With the desired GPU index instead of 0.
