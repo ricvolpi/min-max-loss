@@ -10,8 +10,10 @@ The code allows to train a ConvNet on MNIST using the sampling procedure describ
 
 Python 2.7 (should work on Python 3, too), Numpy, Tensorflow 1.3 
 
-## Files
+### Files
 
 Tree.py: class to build and sample from the full binary tree
+
 Model.py: class to build and train a ConvNet.
+
 FOL.py: class to run the algorithm on MNIST. 
