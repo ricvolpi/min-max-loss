@@ -48,7 +48,6 @@ class Tree(object):
 		new_layer = [child for n in new_layer for child in [n.left, n.right] ]
 
 	    counter = 0
-	    leaf_idx = -1
 	    
 	    for node in new_layer:
 		
@@ -58,7 +57,7 @@ class Tree(object):
 		else:
 		    value = 0
 		
-		node.left = Node(value = value, parent = node, leaf_idx = leaf_idx)
+		node.left = Node(value = value, parent = node)
 		
 		
 		if (i == self.height-1) and (counter <= self.m -1):		    
@@ -67,7 +66,7 @@ class Tree(object):
 		else:
 		    value = 0
 		
-		node.right = Node(value = value, parent = node, leaf_idx = leaf_idx)
+		node.right = Node(value = value, parent = node)
 		
 		self.current_key += 1
 	
@@ -100,6 +99,10 @@ class Tree(object):
 	self.leaves = self.build_full_tree()
 	self.initialize_nodes(self.leaves)
 	
+	# setting leaf_idx valus, needed to return i in sample
+	for l,idx in zip(self.leaves,range(self.m)):
+	    l.leaf_idx = idx
+	
     def sample(self,gamma):
 	
 	b = npr.binomial(1,1-gamma)
@@ -123,7 +126,9 @@ class Tree(object):
 	node = self.leaves[i]
 	
 	while node.parent is not None:
-	    
+	    print 'Delta', delta
+	    print 'Previous value', node.value 
+	    print 'New value', node.value + delta
 	    node.value += delta
 	    node = node.parent 
 	    
