@@ -1,4 +1,4 @@
-# Code for the paper [Minimizing the Maximal Loss: How and Why](https://arxiv.org/pdf/1602.01690.pdf)
+# Code for the paper [Minimizing the Maximal Loss: How and Why](https://arxiv.org/abs/1602.01690)
 
 Unofficial implementation of the work by Shalev-Schwartz and Wexler (ICML 2016). Work in progress.
 
@@ -20,10 +20,16 @@ FOL.py: class to run the algorithm on MNIST.
 
 ## How it works
 
-Simply run:
+Run
+
+```
+python download_and_process_mnist.py
+```
+
+to download and process MNIST dataset, then run 
 
 ```
 python main.py --gpu=0
 ```
 
-With the desired GPU index instead of 0.
+to start the training procedure, with the desired GPU index instead of 0.
