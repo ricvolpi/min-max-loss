@@ -25,7 +25,7 @@ class FOL(object):
         
 	#Tree parameters
 	self.gamma = gamma
-	self.eta = eta
+	
 	
 	self.config = tf.ConfigProto()
         self.config.gpu_options.allow_growth=True
@@ -44,6 +44,8 @@ class FOL(object):
 
         train_images, train_labels = self.load_mnist(self.mnist_dir, split='train')
         test_images, test_labels = self.load_mnist(self.mnist_dir, split='test')
+        
+        self.eta = 1/(2*len(images)) 
 
         # build a graph
         model = self.model
@@ -96,7 +98,7 @@ class FOL(object):
 		    
 		if (t+1) % 1000 == 0:
 		    print 'Saving model.'
-		    saver.save(sess, os.path.join(self.model_save_path, 'encoder'))
+		    #~ saver.save(sess, os.path.join(self.model_save_path, 'encoder'))
 	    
     def test(self):
 	

@@ -90,6 +90,9 @@ class Tree(object):
 	    
 	    parents = [l.parent for l in parents[::2]]
 	
+    def get_leaves_as_list(self):
+	return [l.value for l in self.leaves]
+	
     # Three methods necessary to use the Tree described in the paper.
 	
     def initialize(self):
@@ -103,14 +106,14 @@ class Tree(object):
 	
 	if b == 0:
 	    i = npr.randint(self.m)
-	    return (i,gamma / (self.m + (1 - gamma)*self.leaves[i].value))
+	    return (i, (gamma /self.m) + (1 - gamma)*self.leaves[i].value)
 	
 	
 	else:
 	    node = self.root
 	    while node.left is not None: #it's full, left is completely arbitrary here
 		node = node.left if node.left.value > node.right.value else node.right 
-	    return (node.leaf_idx,gamma / (self.m + (1 - gamma)*node.value))
+	    return (node.leaf_idx, (gamma /self.m) + (1 - gamma)*node.value)
 	
     def update(self, i, f):
 	

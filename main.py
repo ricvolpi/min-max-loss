@@ -27,7 +27,6 @@ def main(_):
     train_iter = 100000
     batch_size = 64 #useless at this point
     gamma = 0.5
-    eta = 0.0001 #check, not sure
     
 
     model = Model(learning_rate=learning_rate)
