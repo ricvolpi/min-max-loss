@@ -2,7 +2,7 @@
 
 Unofficial implementation of the work by Shalev-Schwartz and Wexler (ICML 2016). Work in progress.
 
-## Overview
+## Overview 
 
 The code allows to train a ConvNet on MNIST using the sampling procedure described in the paper. 
 
